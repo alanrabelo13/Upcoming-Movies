@@ -19,19 +19,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // This function receives in the completion a list with data about movies (without images)
+        
+        
         Movie.all(forPage: currentPage) { (movies) in
             
             self.dataSource = movies
-            
+           
             // Use main thread for UI Updates
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
         }
         
-  
-
-    
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -87,39 +86,80 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        // If reaches the end of the collection view...
-        if indexPath.row == dataSource.count - 1 {
+//        // If reaches the end of the collection view...
+//        if indexPath.row == dataSource.count - 1 {
+//
+//            // Updates the current page of the api to get new data
+//            currentPage += 1
+//
+//
+//            // Call the function to get new data with the current page
+//            Movie.all(forPage: currentPage, { (movies) in
+//
+//
+//                // Verify if its the last page of data
+//                if movies.isEmpty {
+//                    self.currentPage -= 1
+//                    return
+//                }
+//
+//                // Get the indexpathes to add in collection view (Reloading this much of data is not good 😉)
+//                var currentIndex = -1
+//                let indexPaths = movies.map({ (movie) -> IndexPath in
+//                    currentIndex += 1
+//                    return IndexPath(item: self.dataSource.count + currentIndex, section: 0)
+//                })
+//
+//                // Appends new movies in the end of datasource array
+//                self.dataSource.append(contentsOf: movies)
+//
+//                // Insert items in the main thread
+//                DispatchQueue.main.async {
+//                    self.collectionView.insertItems(at: indexPaths)
+//                }
+//            })
+//        }
+    }
+    
+}
+
+extension ViewController : UISearchBarDelegate {
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.dataSource = []
+        
+        self.collectionView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        self.dataSource = []
+        self.collectionView.reloadData()
+        
+        guard let text = searchBar.text else { return }
+        Movie.search(withString: text, andPage: 1) { (moviesSearched) in
             
-            // Updates the current page of the api to get new data
-            currentPage += 1
+            self.dataSource.removeAll()
             
-            
-            // Call the function to get new data with the current page
-            Movie.all(forPage: currentPage, { (movies) in
-                
-                
-                // Verify if its the last page of data
-                if movies.isEmpty {
-                    self.currentPage -= 1
-                    return
-                }
-                
-                // Get the indexpathes to add in collection view (Reloading this much of data is not good 😉)
-                var currentIndex = -1
-                let indexPaths = movies.map({ (movie) -> IndexPath in
-                    currentIndex += 1
-                    return IndexPath(item: self.dataSource.count + currentIndex, section: 0)
+            for movie in moviesSearched {
+                Movie.loadMovie(forID: movie.id, { (movie) in
+                    self.dataSource.append(movie!)
+                    
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
                 })
-                
-                // Appends new movies in the end of datasource array
-                self.dataSource.append(contentsOf: movies)
-                
-                // Insert items in the main thread
-                DispatchQueue.main.async {
-                    self.collectionView.insertItems(at: indexPaths)
-                }
-            })
+            }
         }
+        
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
     }
     
 }

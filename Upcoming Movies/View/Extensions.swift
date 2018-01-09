@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 extension UICollectionViewCell {
     func cardenize() {
@@ -40,5 +41,12 @@ extension String {
         
         return dateFormatter.string(from: date!)
         
+    }
+}
+
+extension NSManagedObject {
+    
+    static var className: String {
+        return String(describing: self)
     }
 }

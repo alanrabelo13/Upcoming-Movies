@@ -37,21 +37,11 @@ class MovieDetailsViewController: UIViewController {
     func UpdateMovieDetails() {
         self.labelMovieTitle.text = currentMovie.original_title + " (" + currentMovie.release_date.split(separator: "-").first! + ")"
         
-        Genre.all { (genresDictionary) in
-            
-            let genresStrings = self.currentMovie.genre_ids.map { (id) -> String in
-                // Forcing Optional here because genres are fixed
-                return genresDictionary[id]!
-            }
-            
-            let jointGenres : String = genresStrings.reduce("", { $0 == "" ? $1 : $0 + " | " + $1 })
-            
+        self.currentMovie.getGenresString { (genresAsString) in
             DispatchQueue.main.async {
-                self.labelMovieDetails.text = jointGenres + " - " + self.currentMovie.release_date.dateFormatted()
+                self.labelMovieDetails.text = genresAsString + " - " + self.currentMovie.release_date.dateFormatted()
             }
         }
-        
-        
         
         self.labelOverView.text = currentMovie.overview
         
