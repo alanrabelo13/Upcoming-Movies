@@ -43,10 +43,8 @@ class MovieDetailsViewController: UIViewController {
             
             let jointGenres : String = genresStrings.reduce("", { $0 == "" ? $1 : $0 + " | " + $1 })
             
-            
-            
             DispatchQueue.main.async {
-                self.labelMovieDetails.text = jointGenres + "   " + self.currentMovie.release_date
+                self.labelMovieDetails.text = jointGenres + "  -  " + self.currentMovie.release_date.dateFormatted()
             }
         }
         

@@ -25,3 +25,20 @@ extension UICollectionViewCell {
         self.contentView.layer.masksToBounds = true
     }
 }
+
+extension String {
+    
+    func dateFormatted(withFormat format : String = "yyyy-MM-dd") -> String {
+        
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = format
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd, yyyy"
+        
+        let date: Date? = dateFormatterGet.date(from: self)
+        
+        return dateFormatter.string(from: date!)
+        
+    }
+}
