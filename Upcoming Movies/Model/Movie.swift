@@ -13,7 +13,8 @@ struct Results : Decodable {
     var results : [Movie]
 }
 
-struct Movie : Decodable {
+class Movie : Decodable {
+    
     var vote_count : Int, id : Int
     var genre_ids : [Int]
     var video : Bool, adult : Bool
@@ -38,6 +39,20 @@ struct Movie : Decodable {
 
             
         }.resume()
+        
+    }
+
+    func backdropImage(_ completion : @escaping (UIImage?)->Void) {
+        
+        let posterURL = URL(string : "https://image.tmdb.org/t/p/w500\(self.backdrop_path)")!
+        
+        URLSession.shared.dataTask(with: posterURL) { (data, responser, error) in
+            guard let image = UIImage(data: data!) else {
+                completion(nil)
+                return
+            }
+            completion(image)
+            }.resume()
         
     }
     

@@ -28,9 +28,13 @@ class ViewController: UIViewController {
     
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let selectedIndexpath = self.collectionView.indexPathsForSelectedItems!.first!
+        let selectedMovie = self.movies[selectedIndexpath.row]
+        
+        let detailsController = segue.destination as! MovieDetailsViewController
+        detailsController.currentMovie = selectedMovie
+        
     }
 
 
@@ -50,8 +54,9 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
         let currentMovie = self.movies[indexPath.row]
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MovieCollectionViewCell
-        cell.labelTitle.text = currentMovie.original_title
         
+        cell.labelMovieTitle.text = currentMovie.original_title
+        cell.cardenize()
         currentMovie.posterImage { (image) in
             DispatchQueue.main.async {
                 cell.imageView.image = image
@@ -59,7 +64,11 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
         }
                 
         return cell
-            
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "showMovieDetails", sender: self)
+        
     }
 }
 
