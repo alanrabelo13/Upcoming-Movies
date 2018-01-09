@@ -22,6 +22,9 @@ class MovieDetailsViewController: UIViewController {
     var currentMovie : Movie!
     
 
+    @IBOutlet weak var topBackdropFrontImage: NSLayoutConstraint!
+    
+    @IBOutlet weak var backDropHeight: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +47,7 @@ class MovieDetailsViewController: UIViewController {
             let jointGenres : String = genresStrings.reduce("", { $0 == "" ? $1 : $0 + " | " + $1 })
             
             DispatchQueue.main.async {
-                self.labelMovieDetails.text = jointGenres + "  -  " + self.currentMovie.release_date.dateFormatted()
+                self.labelMovieDetails.text = jointGenres + " - " + self.currentMovie.release_date.dateFormatted()
             }
         }
         
@@ -77,3 +80,35 @@ class MovieDetailsViewController: UIViewController {
     
 
 }
+
+extension MovieDetailsViewController : UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        // Gets the y Scrollview offset
+        let yOffset = scrollView.contentOffset.y
+        
+        // Increases image size while scrolling down
+        if yOffset < -20 {
+            self.topBackdropFrontImage.constant = yOffset - 20
+            self.backDropHeight.constant = 244 - yOffset - 20
+            DispatchQueue.main.async {
+                scrollView.layoutIfNeeded()
+            }
+        }
+        
+        
+        // Dismiss view if slides down
+        if yOffset < -100 {
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+    }
+}
+
+
+
+
+
+
+
+
