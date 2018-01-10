@@ -28,6 +28,10 @@ class MoviesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if #available(iOS 11.0, *) {
+            tableView.insetsContentViewsToSafeArea = true;
+        }
+        
         // This function receives in the completion a list with data about movies (without images)
         Movie.all(forPage: currentPage) { (movies) in
             
