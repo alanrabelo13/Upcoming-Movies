@@ -240,11 +240,21 @@
                                     <outlet property="delegate" destination="Lmp-g6-k6m" id="4SJ-6n-RB8"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Movies Found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cp-YG-fXB">
+                                <rect key="frame" x="16" y="64" width="288" height="504"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="76"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="2Bh-Db-7F5" firstAttribute="top" secondItem="9cp-YG-fXB" secondAttribute="bottom" id="1uu-uX-cdo"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="9cp-YG-fXB" secondAttribute="trailing" id="3jZ-D8-NY3"/>
                             <constraint firstItem="UWR-WV-rHZ" firstAttribute="top" secondItem="OSX-rR-v3z" secondAttribute="top" id="LE6-Xn-mOl"/>
+                            <constraint firstItem="9cp-YG-fXB" firstAttribute="top" secondItem="Qef-aj-D8Z" secondAttribute="bottom" id="Lfz-rR-ZWl"/>
                             <constraint firstItem="UWR-WV-rHZ" firstAttribute="leading" secondItem="OSX-rR-v3z" secondAttribute="leading" id="LgR-K5-hyg"/>
+                            <constraint firstItem="9cp-YG-fXB" firstAttribute="leading" secondItem="OSX-rR-v3z" secondAttribute="leadingMargin" id="Wnc-Zc-F6Y"/>
                             <constraint firstItem="2Bh-Db-7F5" firstAttribute="top" secondItem="UWR-WV-rHZ" secondAttribute="bottom" id="flc-Vw-rmA"/>
                             <constraint firstAttribute="trailing" secondItem="UWR-WV-rHZ" secondAttribute="trailing" id="hyD-mF-bwE"/>
                         </constraints>
@@ -257,6 +267,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="labelEmptyState" destination="9cp-YG-fXB" id="cU7-Ik-zqs"/>
                         <outlet property="tableView" destination="UWR-WV-rHZ" id="iBX-To-75O"/>
                         <segue destination="bcH-qK-yJk" kind="presentation" identifier="showMovieDetails" id="4fd-hO-nT4"/>
                     </connections>
@@ -533,7 +544,7 @@
         <image name="placeholder" width="150" height="266"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Yms-EK-aXM"/>
+        <segue reference="4fd-hO-nT4"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

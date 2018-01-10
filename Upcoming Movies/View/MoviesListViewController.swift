@@ -10,7 +10,15 @@ import UIKit
 
 class MoviesListViewController: UIViewController {
     
-    var dataSource = [Movie]()
+    @IBOutlet weak var labelEmptyState: UILabel!
+    
+    var dataSource = [Movie]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.labelEmptyState.alpha = self.dataSource.isEmpty ? 1 : 0
+            }
+        }
+    }
     
     var selectedIndex : IndexPath?
     var currentPage = 1
@@ -24,7 +32,6 @@ class MoviesListViewController: UIViewController {
         Movie.all(forPage: currentPage) { (movies) in
             
             self.dataSource = movies
-            
             // Use main thread for UI Updates
             DispatchQueue.main.async {
                 self.tableView.reloadData()
