@@ -42,7 +42,7 @@ struct MovieSearched : Decodable {
     }
 }
 
-struct Movie : Decodable {
+class Movie : Decodable {
     
     var vote_count : Int?, id : Int
     var genre_ids : [Int]?
@@ -94,49 +94,30 @@ struct Movie : Decodable {
         
         guard let baseURL = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US") else {completion (nil); return}
         
-        let task = URLSession.shared.dataTask(with: baseURL) { (data, response, error) in
+        URLSession.shared.dataTask(with: baseURL) { (data, response, error) in
             
             guard let data = data else {return}
             
             do {
                 let movie = try JSONDecoder().decode(Movie.self, from: data)
+                print(String.init(data: data, encoding: .utf8))
                 completion(movie)
             } catch let errorFromCatch {
                 print("Error serializing: ", errorFromCatch)
             }
             
-        }
-        
-        Movie.searches.append(task)
-        
-        task.resume()
-        
+        }.resume()
         
     }
     
     
     
     static func search(withString searchString : String, andPage page : Int, _ completion : @escaping ([Movie])->Void) {
+
         
-        URLSession.shared.invalidateAndCancel()
-        URLSession.shared.finishTasksAndInvalidate()
-        URLSession.shared.getAllTasks { (tasks) in
-            for task in tasks {
-                task.cancel()
-            }
-        }
+        guard let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US&query=\(searchString.lowercased().replacingOccurrences(of: " ", with: "%20"))&page=\(page)") else { completion([]); return }
         
-        var removingLastSpaceString = searchString
-        
-//        
-//        let endIndex = searchString.index(searchString.endIndex, offsetBy: -1)
-//        if searchString[endIndex] == " " {
-//            removingLastSpaceString = String(searchString.characters.dropLast())
-//        }
-        
-        guard let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US&query=\(removingLastSpaceString.lowercased().replacingOccurrences(of: " ", with: "%20"))") else { completion([]); return }
-        
-        let task = URLSession.shared.dataTask(with: baseURL) { (data, responser, error) in
+        URLSession.shared.dataTask(with: baseURL) { (data, responser, error) in
             
             guard let data = data else {completion([]); return}
 
@@ -146,11 +127,8 @@ struct Movie : Decodable {
             } catch let errorFromCatch {
                 print("Error serializing: ", errorFromCatch)
             }
-        }
+        }.resume()
         
-        Movie.currentSearch = task
-        
-        task.resume()
         
     }
 
@@ -175,16 +153,19 @@ struct Movie : Decodable {
         
         guard let poster_path = self.poster_path, let posterURL = URL(string : "https://image.tmdb.org/t/p/w500\(poster_path)") else { completion(nil); return }
         
-        let task = URLSession.shared.dataTask(with: posterURL) { (data, responser, error) in
+        URLSession.shared.dataTask(with: posterURL) { (data, responser, error) in
             guard let data = data, let image = UIImage(data: data) else {
                 completion(nil)
                 return
             }
             completion(image)
-        }
+        }.resume()
 
-        
-        task.resume()
-        
+    }
+}
+
+extension Movie: Equatable {
+    static func ==(lhs: Movie, rhs: Movie) -> Bool {
+        return lhs.original_title == rhs.original_title
     }
 }

@@ -57,6 +57,23 @@ class MovieDetailsViewController: UIViewController {
 
                     })
                 }
+            } else {
+                self.currentMovie.posterImage({ (posterImage) in
+                    
+                    if posterImage == nil {
+                        self.imageViewBackdrop.image = #imageLiteral(resourceName: "noposter")
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.imageViewBackdrop.image = image
+                        self.imageViewBackDropFront.image = image
+                        UIView.animate(withDuration: 0.3, animations: {
+                            self.imageViewBackdrop.alpha = 1
+                            self.imageViewBackDropFront.alpha = 1
+                            
+                        })
+                    }
+                })
             }
         }
         

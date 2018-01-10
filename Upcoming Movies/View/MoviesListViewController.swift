@@ -79,16 +79,10 @@ extension MoviesListViewController : UITableViewDelegate, UITableViewDataSource 
         
         cell.labelMovieTitle.text = currentMovie.original_title
         
-        // This functions adds a fancy shadow and add a corner radius to the cell
-//        cell.cardenize()
-        
         // It gets the poster image asyncronously if the movie has one
         currentMovie.posterImage { (image) in
     
             DispatchQueue.main.async {
-                
-                cell.ImageViewPoster.image = nil
-                cell.imageViewBackground.image = nil
                 
                 cell.ImageViewPoster.image = image
                 cell.imageViewBackground.image = image
@@ -101,6 +95,7 @@ extension MoviesListViewController : UITableViewDelegate, UITableViewDataSource 
                 })
             }
         }
+        
         currentMovie.getGenresString({ (string) in
             DispatchQueue.main.async {
                 cell.labelMovieGenres.text = string

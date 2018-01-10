@@ -78,11 +78,14 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
         cell.cardenize()
         
         // It gets the poster image asyncronously if the movie has one
-        currentMovie.posterImage { (image) in
-            DispatchQueue.main.async {
-                cell.imageView.image = image
+        
+            currentMovie.posterImage { (image) in
+                    self.searchQueue.addOperation {
+                        DispatchQueue.main.async {
+                            cell.imageView.image = image ?? #imageLiteral(resourceName: "noposter")
+                        }
+                    }
             }
-        }
                 
         return cell
     }
@@ -93,39 +96,39 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-//        // If reaches the end of the collection view...
-//        if indexPath.row == dataSource.count - 1 {
-//
-//            // Updates the current page of the api to get new data
-//            currentPage += 1
-//
-//
-//            // Call the function to get new data with the current page
-//            Movie.all(forPage: currentPage, { (movies) in
-//
-//
-//                // Verify if its the last page of data
-//                if movies.isEmpty {
-//                    self.currentPage -= 1
-//                    return
-//                }
-//
-//                // Get the indexpathes to add in collection view (Reloading this much of data is not good 😉)
-//                var currentIndex = -1
-//                let indexPaths = movies.map({ (movie) -> IndexPath in
-//                    currentIndex += 1
-//                    return IndexPath(item: self.dataSource.count + currentIndex, section: 0)
-//                })
-//
-//                // Appends new movies in the end of datasource array
-//                self.dataSource.append(contentsOf: movies)
-//
-//                // Insert items in the main thread
-//                DispatchQueue.main.async {
-//                    self.collectionView.insertItems(at: indexPaths)
-//                }
-//            })
-//        }
+        // If reaches the end of the collection view...
+        if indexPath.row == dataSource.count - 1 {
+
+            // Updates the current page of the api to get new data
+            currentPage += 1
+            // Call the function to get new data with the current page
+            Movie.search(withString: lastSerch, andPage: currentPage) { (movies) in
+                
+                // Verify if its the last page of data
+                if movies.isEmpty {
+                    self.currentPage -= 1
+                    return
+                }
+                
+                // Get the indexpathes to add in collection view (Reloading this much of data is not good 😉)
+                var currentIndex = -1
+                let indexPaths = movies.map({ (movie) -> IndexPath in
+                    currentIndex += 1
+                    return IndexPath(item: self.dataSource.count + currentIndex, section: 0)
+                })
+                
+                // Appends new movies in the end of datasource array
+                self.dataSource.append(contentsOf: movies)
+                
+                // Insert items in the main thread
+                DispatchQueue.main.async {
+                    self.collectionView.insertItems(at: indexPaths)
+                }
+                
+            }
+
+    
+        }
     }
     
 }
@@ -138,65 +141,47 @@ extension ViewController : UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-    
-        print("Entrando na funçaão")
-        semaphore.wait()
+        searchBar.resignFirstResponder()
         
-        searchQueue.cancelAllOperations()
-        self.dataSource = []
-        self.collectionView.reloadData()
-        
-        print("Saiu da Funçaão")
-        semaphore.signal()
-        
-        // Initiating a Semaphore for resolving datasource cells x movies conflict while inserting new items
-        
-        guard let text = searchBar.text else { return }
-        
-        
-        
-        searchQueue.addOperation {
-            
-            Movie.search(withString: text, andPage: 1) { (moviesSearched) in
-                
-                self.dataSource.removeAll()
-                
-                for movie in moviesSearched {
-                    
-                    
-                    Movie.loadMovie(forID: movie.id, { (movie) in
-                        
-                        
-                        DispatchQueue.main.async {
-                            
-                            self.semaphore.wait()
-                            print("Semáforo carregando filme")
-                            
-                            self.dataSource.append(movie!)
-                            
-                            if !self.dataSource.isEmpty {
-                                let lastIndexpath = IndexPath(item: self.dataSource.count-1, section: 0)
-                                self.collectionView.insertItems(at: [lastIndexpath])
-                            } else {
-                                self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
-                            }
-                            
-                            print("Semáforo carregando filme - Saiu")
-                            
-                            self.semaphore.signal()
-                        }
-                        
-                        
-                    })
-                }
-            }
-            
-        }
         
     }
     
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        searchQueue.cancelAllOperations()
+        
+        
+        // Initiating a Semaphore for resolving datasource cells x movies conflict while inserting new items
+        
+        guard let text = searchBar.text else { return }
+        
+        if text.replacingOccurrences(of: " ", with: "") == lastSerch.replacingOccurrences(of: " ", with: "")  || text.lengthOfBytes(using: .utf8) == 0 {
+            return
+        } else {
+            lastSerch = text
+        }
+        
+        searchQueue.addOperation {
+            
+            Movie.search(withString: text, andPage: 1) { (moviesSearched) in
+                
+                if moviesSearched == self.dataSource {
+                    return
+                }
+                
+                self.dataSource.removeAll()
+                
+                DispatchQueue.main.async {
+                    
+                    self.dataSource = moviesSearched
+                    
+                    self.collectionView.reloadData()
+                }
+                
+            }
+            
+        }
         
         
         

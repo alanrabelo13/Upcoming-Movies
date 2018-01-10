@@ -20,7 +20,9 @@ class MovieTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         self.ImageViewPoster.image = #imageLiteral(resourceName: "placeholder")
         self.imageViewBackground.image = #imageLiteral(resourceName: "placeholder")
-        
+        self.labelMovieTitle.text = ""
+        self.labelMovieGenres.text = ""
+        self.labelReleaseDate.text = ""
     }
     
 
