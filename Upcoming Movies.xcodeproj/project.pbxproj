@@ -10,6 +10,7 @@
 		E7180AAD20042AF600C93D3B /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7180AAC20042AF600C93D3B /* MovieDetailsViewController.swift */; };
 		E7180AB12004ED0800C93D3B /* Genres.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7180AB02004ED0800C93D3B /* Genres.swift */; };
 		E7180AB32004FF6800C93D3B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7180AB22004FF6800C93D3B /* SearchViewController.swift */; };
+		E78B24622006626200615791 /* ImageDetaislViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78B24612006626200615791 /* ImageDetaislViewController.swift */; };
 		E7B747E9200547DC0007665E /* Images+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B747E5200547DC0007665E /* Images+CoreDataClass.swift */; };
 		E7B747EA200547DC0007665E /* Images+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B747E6200547DC0007665E /* Images+CoreDataProperties.swift */; };
 		E7B747EB200547DC0007665E /* Movies+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B747E7200547DC0007665E /* Movies+CoreDataClass.swift */; };
@@ -53,6 +54,7 @@
 		E7180AAC20042AF600C93D3B /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		E7180AB02004ED0800C93D3B /* Genres.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genres.swift; sourceTree = "<group>"; };
 		E7180AB22004FF6800C93D3B /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		E78B24612006626200615791 /* ImageDetaislViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetaislViewController.swift; sourceTree = "<group>"; };
 		E7B747E5200547DC0007665E /* Images+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+CoreDataClass.swift"; sourceTree = "<group>"; };
 		E7B747E6200547DC0007665E /* Images+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E7B747E7200547DC0007665E /* Movies+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movies+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				E7180AB22004FF6800C93D3B /* SearchViewController.swift */,
 				E7B747F3200554A40007665E /* MoviesListViewController.swift */,
 				E7B747F5200555720007665E /* MovieTableViewCell.swift */,
+				E78B24612006626200615791 /* ImageDetaislViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				E7B747F020054AEF0007665E /* ActiveRecordType.swift in Sources */,
 				E7B747F4200554A40007665E /* MoviesListViewController.swift in Sources */,
 				E7180AB12004ED0800C93D3B /* Genres.swift in Sources */,
+				E78B24622006626200615791 /* ImageDetaislViewController.swift in Sources */,
 				E7180AAD20042AF600C93D3B /* MovieDetailsViewController.swift in Sources */,
 				E7B747EA200547DC0007665E /* Images+CoreDataProperties.swift in Sources */,
 				E7B747EC200547DC0007665E /* Movies+CoreDataProperties.swift in Sources */,

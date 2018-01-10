@@ -13,6 +13,7 @@ class MovieDetailsViewController: UIViewController {
     @IBOutlet weak var imageViewBackdrop: ImageLoader!
     @IBOutlet weak var imageViewBackDropFront: ImageLoader!
     
+    @IBOutlet weak var imageViewPoster: ImageLoader!
     @IBOutlet weak var labelMovieTitle: UILabel!
     @IBOutlet weak var labelMovieDetails: UILabel!
     
@@ -50,10 +51,16 @@ class MovieDetailsViewController: UIViewController {
         
         self.labelOverView.text = currentMovie.overview
         
+        self.imageViewPoster.loadImage(forMovie: currentMovie, andType: .poster, andSize: PosterSizes.high.rawValue)
         self.imageViewBackdrop.loadImage(forMovie: currentMovie, andType: .poster, andSize: PosterSizes.low.rawValue)
         self.imageViewBackDropFront.loadImage(forMovie: currentMovie, andType: .backdrop, andSize: BackDropSizes.medium.rawValue)
         
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destination = segue.destination as? ImageDetaislViewController else {return}
+        destination.image = self.imageViewPoster.image
     }
 
     @IBAction func dismissView(_ sender: UIButton) {
