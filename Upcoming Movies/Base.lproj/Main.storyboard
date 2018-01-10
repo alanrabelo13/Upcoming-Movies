@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="q4t-NY-xlt">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -14,17 +10,17 @@
         <!--Upcoming Movies-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Upcoming_Movies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="Upcoming_Movies" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LGG-Eo-9Pu"/>
                         <viewControllerLayoutGuide type="bottom" id="fcG-jb-g0O"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MXa-Kh-awh">
-                                <rect key="frame" x="0.0" y="86" width="320" height="482"/>
+                                <rect key="frame" x="0.0" y="86" width="600" height="514"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" red="0.0078431372549019607" green="0.58039215686274503" blue="0.6470588235294118" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="10" id="ljc-kp-vu1">
@@ -101,7 +97,7 @@
                                 </connections>
                             </collectionView>
                             <searchBar contentMode="redraw" barStyle="black" searchBarStyle="minimal" placeholder="Search for Movies" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sq1-ky-kxM">
-                                <rect key="frame" x="0.0" y="21" width="320" height="65"/>
+                                <rect key="frame" x="0.0" y="21" width="600" height="65"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="2of-GS-ZcI"/>
                                 </constraints>
@@ -141,11 +137,11 @@
                         <viewControllerLayoutGuide type="bottom" id="2Bh-Db-7F5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="OSX-rR-v3z">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="white" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="UWR-WV-rHZ">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MoviesCell" rowHeight="176" id="bda-OP-eCs" customClass="MovieTableViewCell" customModule="Upcoming_Movies" customModuleProvider="target">
@@ -241,7 +237,7 @@
                                 </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Movies Found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cp-YG-fXB">
-                                <rect key="frame" x="16" y="64" width="288" height="504"/>
+                                <rect key="frame" x="20" y="64" width="560" height="536"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="76"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -285,37 +281,37 @@
                         <viewControllerLayoutGuide type="bottom" id="Y9q-Tx-qJH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Sik-Pe-QXv">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZsV-aI-r8z">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="568"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Iju-pk-Iet" customClass="ImageLoader" customModule="Upcoming_Movies" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                     </imageView>
                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iIu-NO-Vtb">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5eC-ig-0ER">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
                                         <blurEffect style="dark"/>
                                     </visualEffectView>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A7j-GO-z2y">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U5V-3Z-SDe">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="405"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="405"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vyC-J1-8Rs" customClass="ImageLoader" customModule="Upcoming_Movies" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="-36" width="375" height="244"/>
+                                                        <rect key="frame" x="0.0" y="-36" width="655" height="244"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="244" id="IuG-Jg-lhr"/>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Star Wars: Os Últimos Jedi (2017)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rY-E0-IDB">
-                                                        <rect key="frame" x="15" y="224" width="290" height="39"/>
+                                                        <rect key="frame" x="15" y="224" width="570" height="39"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="180" id="R5q-QR-mkG"/>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="Ybc-X7-QIt"/>
@@ -325,7 +321,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Details of the Movie" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="YgY-8d-S5Z">
-                                                        <rect key="frame" x="15" y="269" width="290" height="21"/>
+                                                        <rect key="frame" x="15" y="269" width="570" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="yXc-HD-toH"/>
                                                         </constraints>
@@ -334,7 +330,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overview" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y3S-WN-aYL">
-                                                        <rect key="frame" x="15" y="317" width="290" height="21"/>
+                                                        <rect key="frame" x="15" y="317" width="570" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="21" id="W3b-Zw-0qb"/>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="vhn-8P-CGe"/>
@@ -353,14 +349,14 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qYO-Yx-bXQ" customClass="ImageLoader" customModule="Upcoming_Movies" customModuleProvider="target">
-                                                        <rect key="frame" x="179.5" y="2" width="120.5" height="195"/>
+                                                        <rect key="frame" x="459.5" y="2" width="120.5" height="195"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="195" id="WrG-Cj-cQ8"/>
                                                             <constraint firstAttribute="width" secondItem="qYO-Yx-bXQ" secondAttribute="height" multiplier="47:76" id="eIM-JP-fnC"/>
                                                         </constraints>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YVL-fw-aBw">
-                                                        <rect key="frame" x="179" y="2" width="121" height="195"/>
+                                                        <rect key="frame" x="459" y="2" width="121" height="195"/>
                                                         <connections>
                                                             <segue destination="ptc-4R-n5P" kind="presentation" identifier="showImageDetails" id="Qjw-FA-YXf"/>
                                                         </connections>
@@ -466,14 +462,14 @@
                         <viewControllerLayoutGuide type="bottom" id="AFR-Ld-z7h"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6l3-6r-Q1F">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="6" translatesAutoresizingMaskIntoConstraints="NO" id="YE9-KY-iiz">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noposter" translatesAutoresizingMaskIntoConstraints="NO" id="WcK-xC-wnp">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -489,7 +485,7 @@
                                 </connections>
                             </scrollView>
                             <button opaque="NO" alpha="0.69999998807907104" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jwv-rN-hyc">
-                                <rect key="frame" x="13" y="22" width="40" height="40"/>
+                                <rect key="frame" x="17" y="22" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="JrG-ko-WSg"/>
                                     <constraint firstAttribute="height" constant="40" id="XRG-6D-WGd"/>

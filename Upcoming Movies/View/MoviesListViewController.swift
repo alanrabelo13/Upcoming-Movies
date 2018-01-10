@@ -53,7 +53,7 @@ class MoviesListViewController: UIViewController {
             detailsController.currentMovie = selectedMovie
             self.tableView.deselectRow(at: selectedIndexpath, animated: true)
         } else {
-            let searchController = segue.destination as! ViewController
+            let searchController = segue.destination as! SearchViewController
             searchController.dataSource = self.dataSource
         }
 
@@ -110,6 +110,7 @@ extension MoviesListViewController : UITableViewDelegate, UITableViewDataSource 
         // If reaches the end of the collection view...
         if indexPath.row == dataSource.count - 1 {
             
+            print("\(indexPath.row) == \(dataSource.count - 1)")
             // Updates the current page of the api to get new data
             currentPage += 1
             

@@ -21,16 +21,20 @@ class Upcoming_MoviesTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testLoadingUpcomingDataFromAPI() {
+        
+        let expectation = self.expectation(description: "Loaded data from API")
+        
+        Movie.all(forPage: 1) { (movies) in
+            if movies.isEmpty {
+                XCTFail("No movies found")
+            } else {
+                expectation.fulfill()
+            }
         }
+        
+        waitForExpectations(timeout: 5, handler: nil)
+
     }
     
 }

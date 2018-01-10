@@ -9,15 +9,6 @@
 import Foundation
 import UIKit
 
-struct Results : Decodable {
-    var results : [Movie]
-}
-
-struct ResultsSearched : Decodable {
-    var page : Int
-    var results : [Movie]
-}
-
 enum ImageType {
     case poster
     case backdrop
@@ -38,31 +29,12 @@ enum BackDropSizes : String {
     case original = "original"
 }
 
-struct MovieSearched : Decodable {
-    var id : Int
-    var logo_path : String?
-    var name : String
-    
-    func movie(_ completion : @escaping (Movie)->Void) {
-        
-        let baseURL = URL(string: "https://api.themoviedb.org/3/movie/\(self.id)?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US")!
-        
-        URLSession.shared.dataTask(with: baseURL) { (data, response, error) in
-            
-            guard let data = data else {return}
-            
-            do {
-                let movie = try JSONDecoder().decode(Movie.self, from: data)
-                completion(movie)
-            } catch let errorFromCatch {
-                print("Error serializing: ", errorFromCatch)
-            }
-            
-        }.resume()
-        
-    }
+// This Struct is used to unzip data parsed in an array of Movie
+struct Results : Decodable {
+    var results : [Movie]
 }
 
+// I used decodable for ease JSON parsing task
 class Movie : Decodable {
     
     var vote_count : Int?, id : Int
@@ -71,11 +43,7 @@ class Movie : Decodable {
     var vote_average : Float, popularity : Float
     var poster_path : String?, original_language : String, original_title : String, backdrop_path : String?, overview : String, release_date : String
     
-    
-    static var searches = [URLSessionDataTask]()
-    
-    static var currentSearch : URLSessionDataTask?
-    
+    // This function get all genres from API and returns a formatted string with current movie array of genres
     func getGenresString(_ completion : @escaping (String)->Void) {
         
         Genre.all { (genresDictionary) in
@@ -91,6 +59,7 @@ class Movie : Decodable {
         }
     }
     
+    // This function gets movies from Upcoming section of the api
     static func all(forPage page : Int, _ completion : @escaping ([Movie])->()) {
         
         //API Key: 1f54bd990f1cdfb230adb312546d765d
@@ -111,30 +80,8 @@ class Movie : Decodable {
         
     }
     
-    static func loadMovie(forID id : Int, _ completion : @escaping (Movie?)->Void) {
-        
-        guard let baseURL = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US") else {completion (nil); return}
-        
-        URLSession.shared.dataTask(with: baseURL) { (data, response, error) in
-            
-            guard let data = data else {return}
-            
-            do {
-                let movie = try JSONDecoder().decode(Movie.self, from: data)
-                print(String.init(data: data, encoding: .utf8))
-                completion(movie)
-            } catch let errorFromCatch {
-                print("Error serializing: ", errorFromCatch)
-            }
-            
-        }.resume()
-        
-    }
-    
-    
-    
+    // Utilizes API for searching movies with a string, uses pagination instead of loading all stuff for reducing network usage
     static func search(withString searchString : String, andPage page : Int, _ completion : @escaping ([Movie])->Void) {
-
         
         guard let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US&query=\(searchString.lowercased().addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!)&page=\(page)") else { completion([]); return }
         
@@ -143,7 +90,7 @@ class Movie : Decodable {
             guard let data = data else {completion([]); return}
 
             do {
-                let results = try JSONDecoder().decode(ResultsSearched.self, from: data)
+                let results = try JSONDecoder().decode(Results.self, from: data)
                 completion(results.results)
             } catch let errorFromCatch {
                 print("Error serializing: ", errorFromCatch)
@@ -153,38 +100,9 @@ class Movie : Decodable {
         
     }
 
-    func backdropImage(_ completion : @escaping (UIImage?)->Void) {
-        
-        guard let backdrop_path = self.backdrop_path, let posterURL = URL(string : "https://image.tmdb.org/t/p/w500\(backdrop_path)") else { completion(nil); return}
-        
-        URLSession.shared.dataTask(with: posterURL) { (data, responser, error) in
-            guard let image = UIImage(data: data!) else {
-                completion(nil)
-                return
-            }
-            completion(image)
-        }.resume()
-        
-    }
-    
-    
-    static var imageTasks = [IndexPath:[URLSessionDataTask]]()
-    
-    func posterImage(_ completion : @escaping (UIImage?)->Void) {
-        
-        guard let poster_path = self.poster_path, let posterURL = URL(string : "https://image.tmdb.org/t/p/w500\(poster_path)") else { completion(nil); return }
-        
-        URLSession.shared.dataTask(with: posterURL) { (data, responser, error) in
-            guard let data = data, let image = UIImage(data: data) else {
-                completion(nil)
-                return
-            }
-            completion(image)
-        }.resume()
-
-    }
 }
 
+// Needed to compare movies objects
 extension Movie: Equatable {
     static func ==(lhs: Movie, rhs: Movie) -> Bool {
         return lhs.original_title == rhs.original_title
