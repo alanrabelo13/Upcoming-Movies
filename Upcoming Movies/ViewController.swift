@@ -12,15 +12,22 @@ class ViewController: UIViewController {
 
     var dataSource = [Movie]()
     var currentPage = 1
+    var lastSerch : String = ""
+
+    
+    let searchQueue = OperationQueue()
+    let semaphore = DispatchSemaphore(value: 1)
+
         
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        searchQueue.qualityOfService = .userInteractive
+
+        
         // This function receives in the completion a list with data about movies (without images)
-        
-        
         Movie.all(forPage: currentPage) { (movies) in
             
             self.dataSource = movies
@@ -129,36 +136,74 @@ extension ViewController : UISearchBarDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.dataSource = []
-        
-        self.collectionView.reloadData()
-    }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
+        if lastSerch.contains(searchText) {
+            lastSerch = searchText
+            return
+        }
+        
+        lastSerch = searchText
+        print("Entrando na funçaão")
+        semaphore.wait()
+        
+        searchQueue.cancelAllOperations()
         self.dataSource = []
         self.collectionView.reloadData()
         
+        print("Saiu da Funçaão")
+        semaphore.signal()
+        
+        // Initiating a Semaphore for resolving datasource cells x movies conflict while inserting new items
+        
         guard let text = searchBar.text else { return }
-        Movie.search(withString: text, andPage: 1) { (moviesSearched) in
+        
+        
+        
+        searchQueue.addOperation {
             
-            self.dataSource.removeAll()
-            
-            for movie in moviesSearched {
-                Movie.loadMovie(forID: movie.id, { (movie) in
-                    self.dataSource.append(movie!)
+            Movie.search(withString: text, andPage: 1) { (moviesSearched) in
+                
+                self.dataSource.removeAll()
+                
+                for movie in moviesSearched {
                     
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                    }
-                })
+                    
+                    Movie.loadMovie(forID: movie.id, { (movie) in
+                        
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.semaphore.wait()
+                            print("Semáforo carregando filme")
+                            
+                            self.dataSource.append(movie!)
+                            
+                            if !self.dataSource.isEmpty {
+                                let lastIndexpath = IndexPath(item: self.dataSource.count-1, section: 0)
+                                self.collectionView.insertItems(at: [lastIndexpath])
+                            } else {
+                                self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+                            }
+                            
+                            print("Semáforo carregando filme - Saiu")
+                            
+                            self.semaphore.signal()
+                        }
+                        
+                        
+                    })
+                }
             }
+            
         }
         
     }
     
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        
         
     }
     

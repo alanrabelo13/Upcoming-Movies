@@ -126,7 +126,15 @@ struct Movie : Decodable {
             }
         }
         
-        guard let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US&query=\(searchString.lowercased().replacingOccurrences(of: " ", with: "%20"))") else { completion([]); return }
+        var removingLastSpaceString = searchString
+        
+//        
+//        let endIndex = searchString.index(searchString.endIndex, offsetBy: -1)
+//        if searchString[endIndex] == " " {
+//            removingLastSpaceString = String(searchString.characters.dropLast())
+//        }
+        
+        guard let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US&query=\(removingLastSpaceString.lowercased().replacingOccurrences(of: " ", with: "%20"))") else { completion([]); return }
         
         let task = URLSession.shared.dataTask(with: baseURL) { (data, responser, error) in
             
