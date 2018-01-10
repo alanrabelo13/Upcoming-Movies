@@ -10,11 +10,11 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var ImageViewPoster: UIImageView!
+    @IBOutlet weak var ImageViewPoster: ImageLoader!
     @IBOutlet weak var labelMovieTitle: UILabel!
     @IBOutlet weak var labelMovieGenres: UILabel!
     @IBOutlet weak var labelReleaseDate: UILabel!
-    @IBOutlet weak var imageViewBackground: UIImageView!
+    @IBOutlet weak var imageViewBackground: ImageLoader!
     
     
     override func prepareForReuse() {

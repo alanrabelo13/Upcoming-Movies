@@ -80,27 +80,17 @@ extension MoviesListViewController : UITableViewDelegate, UITableViewDataSource 
         cell.labelMovieTitle.text = currentMovie.original_title
         
         // It gets the poster image asyncronously if the movie has one
-        currentMovie.posterImage { (image) in
-    
-            DispatchQueue.main.async {
-                
-                cell.ImageViewPoster.image = image
-                cell.imageViewBackground.image = image
-                cell.labelMovieTitle.text = currentMovie.original_title
-                cell.labelReleaseDate.text = currentMovie.release_date.dateFormatted()
-                
-                UIView.animate(withDuration: 0.6, animations: {
-                    cell.imageViewBackground.alpha = 1
-                    cell.ImageViewPoster.alpha = 1
-                })
-            }
-        }
+        cell.ImageViewPoster.loadImage(forMovie: currentMovie, andType: .poster, andSize: PosterSizes.low.rawValue)
+        cell.imageViewBackground.loadImage(forMovie: currentMovie, andType: .poster, andSize: PosterSizes.low.rawValue)
         
+        // Gets the Genres and Release Date for the movie
         currentMovie.getGenresString({ (string) in
             DispatchQueue.main.async {
                 cell.labelMovieGenres.text = string
             }
         })
+        
+        cell.labelReleaseDate.text = currentMovie.release_date.dateFormatted()
         
         return cell
     }

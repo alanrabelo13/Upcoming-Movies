@@ -10,8 +10,8 @@ import UIKit
 
 class MovieDetailsViewController: UIViewController {
 
-    @IBOutlet weak var imageViewBackdrop: UIImageView!
-    @IBOutlet weak var imageViewBackDropFront: UIImageView!
+    @IBOutlet weak var imageViewBackdrop: ImageLoader!
+    @IBOutlet weak var imageViewBackDropFront: ImageLoader!
     
     @IBOutlet weak var labelMovieTitle: UILabel!
     @IBOutlet weak var labelMovieDetails: UILabel!
@@ -35,7 +35,12 @@ class MovieDetailsViewController: UIViewController {
     }
     
     func UpdateMovieDetails() {
-        self.labelMovieTitle.text = currentMovie.original_title + " (" + currentMovie.release_date.split(separator: "-").first! + ")"
+        
+        self.labelMovieTitle.text = currentMovie.original_title
+        
+        if let year = currentMovie.release_date.split(separator: "-").first {
+            self.labelMovieTitle.text! += " (" + year + ")"
+        }
         
         self.currentMovie.getGenresString { (genresAsString) in
             DispatchQueue.main.async {
@@ -45,44 +50,14 @@ class MovieDetailsViewController: UIViewController {
         
         self.labelOverView.text = currentMovie.overview
         
+        self.imageViewBackdrop.loadImage(forMovie: currentMovie, andType: .poster, andSize: PosterSizes.low.rawValue)
+        self.imageViewBackDropFront.loadImage(forMovie: currentMovie, andType: .backdrop, andSize: BackDropSizes.medium.rawValue)
         
-        currentMovie.backdropImage { (image) in
-            if let image = image {
-                DispatchQueue.main.async {
-                    self.imageViewBackdrop.image = image
-                    self.imageViewBackDropFront.image = image
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.imageViewBackdrop.alpha = 1
-                        self.imageViewBackDropFront.alpha = 1
-
-                    })
-                }
-            } else {
-                self.currentMovie.posterImage({ (posterImage) in
-                    
-                    if posterImage == nil {
-                        self.imageViewBackdrop.image = #imageLiteral(resourceName: "noposter")
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.imageViewBackdrop.image = image
-                        self.imageViewBackDropFront.image = image
-                        UIView.animate(withDuration: 0.3, animations: {
-                            self.imageViewBackdrop.alpha = 1
-                            self.imageViewBackDropFront.alpha = 1
-                            
-                        })
-                    }
-                })
-            }
-        }
         
     }
 
     @IBAction func dismissView(_ sender: UIButton) {
-        
         self.dismiss(animated: true, completion: nil)
-        
     }
     
 

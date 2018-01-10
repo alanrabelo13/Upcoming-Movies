@@ -77,15 +77,8 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
         // This functions adds a fancy shadow and add a corner radius to the cell
         cell.cardenize()
         
+        cell.imageView.loadImage(forMovie: currentMovie, andType: .poster, andSize: PosterSizes.low.rawValue)
         // It gets the poster image asyncronously if the movie has one
-        
-            currentMovie.posterImage { (image) in
-                    self.searchQueue.addOperation {
-                        DispatchQueue.main.async {
-                            cell.imageView.image = image ?? #imageLiteral(resourceName: "noposter")
-                        }
-                    }
-            }
                 
         return cell
     }

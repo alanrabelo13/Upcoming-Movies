@@ -18,12 +18,33 @@ struct ResultsSearched : Decodable {
     var results : [Movie]
 }
 
+enum ImageType {
+    case poster
+    case backdrop
+}
+
+enum PosterSizes : String {
+    case thumb = "w92"
+    case low = "w154"
+    case medium = "w342"
+    case high = "w780"
+    case original = "original"
+}
+
+enum BackDropSizes : String {
+    case low = "w300"
+    case medium = "w780"
+    case high = "w1280"
+    case original = "original"
+}
+
 struct MovieSearched : Decodable {
     var id : Int
     var logo_path : String?
     var name : String
     
     func movie(_ completion : @escaping (Movie)->Void) {
+        
         let baseURL = URL(string: "https://api.themoviedb.org/3/movie/\(self.id)?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US")!
         
         URLSession.shared.dataTask(with: baseURL) { (data, response, error) in
@@ -115,7 +136,7 @@ class Movie : Decodable {
     static func search(withString searchString : String, andPage page : Int, _ completion : @escaping ([Movie])->Void) {
 
         
-        guard let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US&query=\(searchString.lowercased().replacingOccurrences(of: " ", with: "%20"))&page=\(page)") else { completion([]); return }
+        guard let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US&query=\(searchString.lowercased().addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!)&page=\(page)") else { completion([]); return }
         
         URLSession.shared.dataTask(with: baseURL) { (data, responser, error) in
             
