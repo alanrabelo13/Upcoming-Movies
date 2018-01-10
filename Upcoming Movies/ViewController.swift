@@ -138,12 +138,7 @@ extension ViewController : UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        if lastSerch.contains(searchText) {
-            lastSerch = searchText
-            return
-        }
-        
-        lastSerch = searchText
+    
         print("Entrando na funçaão")
         semaphore.wait()
         
